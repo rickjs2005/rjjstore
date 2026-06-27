@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* PADRÃO — Areia & Espresso (terroso premium) */
+  /* triplets RGB (sem rgb()) para suportar alpha do Tailwind e troca de tema */
+  --paper: 233 225 212; /* areia  #E9E1D4 */
+  --ink: 42 33 26; /* espresso  #2A211A */
+  --ash: 223 213 196; /* areia secundária #DFD5C4 */
+  --stone: 122 106 82; /* taupe  #7A6A52 */
+  --line: 207 196 178; /* linha  #CFC4B2 */
+  --graphite: 58 46 34; /* espresso suave #3A2E22 */
+  --transition-tone: 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Paleta alternativa — branco puro / preto (editorial clean) */
+[data-theme="pure"] {
+  --paper: 255 255 255;
+  --ink: 5 5 5;
+  --ash: 244 244 242;
+  --stone: 138 138 133;
+  --line: 231 231 227;
+  --graphite: 26 26 26;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis cuida do scroll */
+}
+
+body {
+  background: rgb(var(--paper));
+  color: rgb(var(--ink));
+  font-feature-settings: "ss01", "cv01";
+  overflow-x: hidden;
+  transition: background var(--transition-tone), color var(--transition-tone);
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Seleção */
+::selection {
+  background: rgb(var(--ink));
+  color: rgb(var(--paper));
+}
+
+/* Scrollbar discreta */
+::-webkit-scrollbar {
+  width: 9px;
+}
+::-webkit-scrollbar-track {
+  background: rgb(var(--paper));
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--stone) / 0.4);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--ink));
+}
+
+/* Tipografia utilitária */
+.h-display {
+  font-family: var(--font-display), serif;
+  font-weight: 500;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+}
+.eyebrow {
+  font-family: var(--font-sans), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.6875rem;
+  font-weight: 500;
+}
+
+/* Grão cinematográfico */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+  will-change: transform;
+  animation: grainShift 6s steps(6) infinite;
+}
+@keyframes grainShift {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-4%, 2%); }
+  40% { transform: translate(3%, -3%); }
+  60% { transform: translate(-2%, 4%); }
+  80% { transform: translate(4%, -2%); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Cursor personalizado (desktop) */
+@media (hover: hover) and (pointer: fine) {
+  .cursor-luxe * {
+    cursor: none !important;
+  }
+  /* mantém o cursor de texto nos campos de formulário (usabilidade ao digitar) */
+  .cursor-luxe input,
+  .cursor-luxe textarea,
+  .cursor-luxe select {
+    cursor: auto !important;
+  }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Escala de z-index (referência — mantém o empilhamento coerente)
+     2    Spotlight (luz do cursor, dentro das seções)
+     50   Navbar
+     55   ScrollProgress
+     60   Grão + MobileMenu
+     70   WhatsAppFloat
+     80   Overlay do carrinho / filtros mobile
+     81   Drawer do carrinho / filtros mobile
+     90   Overlay do QuickView
+     91   Modal do QuickView
+     100  Cursor personalizado
+     110  Cortina de transição de página
+     120  Preloader
+   ────────────────────────────────────────────────────────────── */
+
+/* Revelação de texto por palavra (clip-up).
+   inline-block para as palavras fluírem na mesma linha e quebrarem
+   naturalmente; o espaço entre elas fica FORA deste wrapper. */
+.reveal-line {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+}
+
+/* Hairline */
+.hairline {
+  border-color: rgb(var(--line));
+}
+
+/* Underline animada para links da navbar */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain { animation: none; }
+  * { scroll-behavior: auto !important; }
+}
