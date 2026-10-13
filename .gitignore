@@ -13,3 +13,5 @@ next-env.d.ts.bak
 # env files (examples stay tracked)
 .env*
 !.env.example
+/coverage
+*.log
