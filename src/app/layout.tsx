@@ -30,7 +30,7 @@ const sans = Inter({
   display: "swap",
 });
 
-const SITE_URL = "https://rjjstore.com.br";
+const SITE_URL = "https://rjjstore.vercel.app";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

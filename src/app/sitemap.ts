@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { products } from "@/lib/products";
 
-const SITE_URL = "https://rjjstore.com.br";
+const SITE_URL = "https://rjjstore.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const routes: MetadataRoute.Sitemap = [
